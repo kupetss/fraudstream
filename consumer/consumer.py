@@ -10,7 +10,7 @@ logging.basicConfig(
 consumer = KafkaConsumer(
     "transactions",
     bootstrap_servers="localhost:9092",
-    group_id="fraud-detection-test",
+    group_id="fraud-detection",
     auto_offset_reset="earliest"
 )
 

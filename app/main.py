@@ -1,15 +1,9 @@
 import json
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
-from producer import send_transaction
+from producer.producer import send_transaction
+from app.schemas.transaction import Transaction
 
 app = FastAPI()
-
-class Transaction(BaseModel):
-    user_id: int = Field(gt=0)
-    amount: float = Field(gt=0)
-    currency: str = Field(min_length=3, max_length=3)
-
 
 @app.post("/transactions")
 def create_transaction(transaction: Transaction):
@@ -18,7 +12,7 @@ def create_transaction(transaction: Transaction):
     try:
         send_transaction(data)
     except Exception as e:
-        raise HTTPException(status_code=503, detail="Kafka is unavaible") from e
+        raise HTTPException(status_code=503, detail="Kafka is unavailable") from e
     
     return{
         "message" : "transaction polychena",
@@ -28,5 +22,5 @@ def create_transaction(transaction: Transaction):
 
 @app.get("/")
 def home():
-    return {"mwssage": "API is running"}
+    return {"message": "API is running"}
 
