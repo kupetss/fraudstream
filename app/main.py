@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.post("/transactions")
 def create_transaction(transaction: Transaction):
-    data = transaction.model_dump()
+    data = transaction.model_dump(mode="json")
 
     try:
         send_transaction(data)
